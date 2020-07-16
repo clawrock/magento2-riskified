@@ -3,7 +3,7 @@
     "type": "magento2-module",
     "require": {
         "magento/module-sales": "^102.0",
-        "riskified/php_sdk": "^1.8"
+        "riskified/php_sdk": "^1.9"
     },
     "repositories": [
         {

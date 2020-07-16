@@ -16,6 +16,7 @@ class Api
     const ACTION_SUBMIT = 'submit';
     const ACTION_CANCEL = 'cancel';
     const ACTION_FULFILL = 'fulfill';
+    const ACTION_REFUND = 'refund';
 
     private $version;
     private $_apiConfig;
@@ -25,8 +26,11 @@ class Api
         $this->_apiConfig = $apiConfig;
     }
 
-    public function initSdk()
+    public function initSdk($order = null)
     {
+        $storeId = (!is_null($order)) ? $order->getStore() : null;
+        $this->_apiConfig->setStore($storeId);
+
         $authToken = $this->_apiConfig->getAuthToken();
         $env = constant($this->_apiConfig->getConfigEnv());
         $shopDomain = $this->_apiConfig->getShopDomain();
