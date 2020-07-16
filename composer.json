@@ -1,0 +1,27 @@
+{
+    "name": "riskified/magento2",
+    "type": "magento2-module",
+    "require": {
+        "magento/module-sales": "^102.0",
+        "riskified/php_sdk": "^1.8"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://repo.magento.com/"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/Riskified/php_sdk"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "app/code/Riskified/Decider/registration.php"
+        ],
+        "psr-4": {
+          "Riskified\\Decider\\": "app/code/Riskified/Decider"
+
+        }
+    }
+}

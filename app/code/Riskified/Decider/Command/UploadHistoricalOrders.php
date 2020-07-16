@@ -24,6 +24,7 @@ class UploadHistoricalOrders extends Command
     protected $_totalUploaded = 0;
     protected $_currentPage = 1;
     protected $_orders;
+    protected $_state;
 
     const BATCH_SIZE = 10;
 
@@ -34,14 +35,10 @@ class UploadHistoricalOrders extends Command
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         \Magento\Framework\Api\SearchCriteria $searchCriteriaBuilder
     ) {
-        $state->setAreaCode('adminhtml');
-
+        $this->_state                   = $state;
         $this->_scopeConfig             = $scopeConfig;
         $this->_orderRepository         = $orderRepository;
         $this->_searchCriteriaBuilder   = $searchCriteriaBuilder;
-
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $this->_orderHelper = $objectManager->get('\Riskified\Decider\Api\Order\Helper');
 
         $this->_transport = new CurlTransport(new Signature\HttpDataSignature());
         $this->_transport->timeout = 15;
@@ -65,6 +62,10 @@ class UploadHistoricalOrders extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->_state->setAreaCode('adminhtml');
+
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $this->_orderHelper = $objectManager->get('\Riskified\Decider\Api\Order\Helper');
 
         $authToken = $this->_scopeConfig->getValue('riskified/riskified/key', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         $env = constant('\Riskified\Common\Env::' . $this->_scopeConfig->getValue('riskified/riskified/env'));
